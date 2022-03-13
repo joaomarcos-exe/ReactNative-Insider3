@@ -20,7 +20,7 @@ export default function Home(){
     }
 
     return(
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <TouchableWithoutFeedback touchSoundDisabled onPress={() => Keyboard.dismiss()}>
             <LinearGradient
                 colors={['#1DDBB9', '#132742']}
                 style={{flex:1, justifyContent:'center'}}
@@ -80,3 +80,4 @@ export default function Home(){
         </TouchableWithoutFeedback>
     )
 }
+
