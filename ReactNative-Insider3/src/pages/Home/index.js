@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import {TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, Modal} from 'react-native'
+import {TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, Modal, 
+ActivityIndicator} from 'react-native'
 
 import {LinearGradient} from 'expo-linear-gradient'
 import StatusBarPage from '../../components/StatusBarPage'
@@ -8,14 +9,34 @@ import ModalLink from '../../components/ModalLink'
 
 import {Feather} from '@expo/vector-icons'
 import {ContainerLogo, Logo, ContainerContent, Title, SubTitle, ContainerInput, BoxIcon, Input, ButtonLink, ButtonLinkText} from './styles'
+import api from '../../Services/api'
 
 export default function Home(){
+    const [loading, setloading] = useState(false)
     const [input, setInput] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
+    const [data, setData] = useState({})
 
-    function handleShortLink(){
-        // alert('URL digitada: ' + input)
-        setModalVisible(true)
+    async function handleShortLink(){
+        setloading(true)
+       try {
+           const response = await api.post('/shorten', {
+               long_url: input
+           })
+           setData(response.data)
+
+           setModalVisible(true)
+
+           setloading(false)
+           Keyboard.dismiss()
+           setInput('')
+
+       } catch (error) {
+           alert('Algo deu errado')
+           Keyboard.dismiss()
+           setInput('')
+           setloading(false)
+       } 
 
     }
 
@@ -61,10 +82,17 @@ export default function Home(){
                             />
                         </ContainerInput>
 
-                        <ButtonLink>
-                            <ButtonLinkText onPress={handleShortLink}>
-                                Gerar Link
-                            </ButtonLinkText>
+                        <ButtonLink onPress={handleShortLink}>
+                            {
+                                loading ? (
+                                    <ActivityIndicator color='#121212' size={24}/>
+                                ) : (
+                                    <ButtonLinkText >
+                                        Gerar Link
+                                    </ButtonLinkText>
+                                )
+                            }
+                            
                         </ButtonLink>
 
                     </ContainerContent>
@@ -74,7 +102,7 @@ export default function Home(){
                     transparent 
                     animationType='slide'
                 >
-                    <ModalLink onClose={() => setModalVisible(false)}/>
+                    <ModalLink onClose={() => setModalVisible(false)} data={data}/>
                 </Modal>
             </LinearGradient>
         </TouchableWithoutFeedback>
