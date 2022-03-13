@@ -5,6 +5,7 @@ import StatusBarPage from '../../components/StatusBarPage'
 import {Container, Title, ListLinks} from './styles'
 import Menu from '../../components/Menu'
 import ListItem from '../../components/ListItem'
+import api from '../../Services/api'
 
 export default function MyLinks(){
     return(
