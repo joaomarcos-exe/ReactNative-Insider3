@@ -47,7 +47,7 @@ export default function Routes() {
                 name="MyLinks"
                 component={MyLinks}
                 options={{
-                    title: 'Encurtart URL',
+                    title: 'Meus Links',
                     drawerIcon: ({focused, size, color}) =>(
                         <Ionicons 
                             name={focused ? "stats-chart" : "stats-chart-outline"}
