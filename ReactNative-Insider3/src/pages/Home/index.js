@@ -10,6 +10,7 @@ import ModalLink from '../../components/ModalLink'
 import {Feather} from '@expo/vector-icons'
 import {ContainerLogo, Logo, ContainerContent, Title, SubTitle, ContainerInput, BoxIcon, Input, ButtonLink, ButtonLinkText} from './styles'
 import api from '../../Services/api'
+import {saveLink, getLinksSaves} from '../../utils/storeLinks'
 
 export default function Home(){
     const [loading, setloading] = useState(false)
@@ -26,6 +27,8 @@ export default function Home(){
            setData(response.data)
 
            setModalVisible(true)
+
+           saveLink('links', response.data)
 
            setloading(false)
            Keyboard.dismiss()
@@ -61,7 +64,7 @@ export default function Home(){
                     </ContainerLogo>
 
                     <ContainerContent>
-                        <Title>Sujeito Link</Title>
+                        <Title>My Link</Title>
                         <SubTitle>Cole seu link para encurtart</SubTitle>
                         <ContainerInput>
                             <BoxIcon>
